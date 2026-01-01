@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>תורים שהוזמנו</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 20px; background: #f5f7fa; direction: rtl; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #bbb; padding: 10px; text-align: center; }
+  th { background: #3498db; color: white; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  a { display: inline-block; margin-bottom: 15px; color: #2980b9; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>תורים שהוזמנו</h1>
+
+<div class="top-nav">
+  <a href="/main_admin">🔧 מנהל ראשי</a>
+</div>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>תאריך</th>
+      <th>שעה</th>
+      <th>שם</th>
+      <th>טלפון</th>
+      <th>שירות</th>
+      <th>מחיר</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for date, appts in appointments.items() %}
+      {% for appt in appts %}
+        <tr>
+          <td>{{ date }}</td>
+          <td>{{ appt.time }}</td>
+          <td>{{ appt.name }}</td>
+          <td>{{ appt.phone }}</td>
+          <td>{{ appt.service }}</td>
+          <td>{{ appt.price }} ₪</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="6"><em>אין תורים</em></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="he">
+<head>
+    <meta charset="utf-8">
+    <title>בחירת שירות</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            direction: rtl;
+        }
+        h1 { color: #333; margin-top: 30px; }
+        form { display: inline-block; margin-top: 30px; }
+        select, button {
+            font-size: 1.1rem;
+            padding: 10px 14px;
+            margin: 8px;
+            border-radius: 8px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background: #45a049; }
+        .message-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 10px 20px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .error-message {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .cancel-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .cancel-btn:hover { background: #d32f2f; }
+    </style>
+</head>
+<body>
+
+    <!-- הודעת הצלחה עם כפתור ביטול לידה -->
+    {% if success_message %}
+        <div class="message-container">
+            <div class="message">{{ success_message }}</div>
+            {% if can_cancel %}
+                <form action="{{ url_for('cancel_appointment') }}" method="post" style="margin:0;">
+                    <button type="submit" class="cancel-btn">בטל תור</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- הודעת שגיאה -->
+    {% if error %}
+        <div class="message-container">
+            <div class="message error-message">{{ error }}</div>
+        </div>
+    {% endif %}
+
+    <h1>בחר שירות</h1>
+    <form method="POST" action="{{ url_for('save_service') }}">
+        <select id="service" name="service" required>
+            <option value="">בחר שירות</option>
+            {% for s in services %}
+                <option value="{{ s['id'] }}">
+                    {{ s['name'] }}{% if s['duration_minutes'] %} ({{ s['duration_minutes'] }} דק׳){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">המשך להזמנת תור</button>
+    </form>
+</body>
+</html>
